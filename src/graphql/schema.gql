@@ -1,0 +1,77 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""This is used to differenciate between the output of the data requested"""
+union DataUnion = LoginOutput | UserOutput
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""Login output will contain user details and Authorization token"""
+type LoginOutput {
+  createdAt: DateTime!
+  email: String!
+  id: String!
+  token: String!
+  updatedAt: DateTime!
+}
+
+"""Email and password is required to sign in"""
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+"""User biometric is required to sign in"""
+input LoginUserWithBiometricKey {
+  biometricKey: String!
+}
+
+type Mutation {
+  """Users logs in with email and password"""
+  loginUserAccount(loginUserInput: LoginUserInput!): ResponseHandler!
+
+  """User uses their unique biometric key to login"""
+  loginUserWithBiometricKey(loginUserWithBiometricKey: LoginUserWithBiometricKey!): ResponseHandler!
+
+  """User registers their account with email and password"""
+  registerUserAccount(registerUserInput: RegisterUserInput!): ResponseHandler!
+
+  """User registers their unique biometric key"""
+  registerUserBiometricKey(id: String!, registerUserBiometricKey: RegisterUserBiometricKey!): ResponseHandler!
+}
+
+type Query {
+  """User fetch their profile details"""
+  getUserAccountById(id: String!): ResponseHandler!
+}
+
+"""Biometric key is required to register user biometric"""
+input RegisterUserBiometricKey {
+  biometricKey: String!
+}
+
+"""Email and password is required to sign up"""
+input RegisterUserInput {
+  email: String!
+  password: String!
+}
+
+"""Organised response handler for all resolvers and services"""
+type ResponseHandler {
+  data: DataUnion
+  message: String!
+  status: Boolean!
+  statusCode: Float!
+}
+
+"""User profile will only contain the user's id, email and timestamp"""
+type UserOutput {
+  createdAt: DateTime!
+  email: String!
+  id: String!
+  updatedAt: DateTime!
+}
